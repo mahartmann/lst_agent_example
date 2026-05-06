@@ -26,12 +26,9 @@ These are the major things happening in ```exec_agent.sh```:
 The script launches ```start_vllm_server.sh``` as a background process. The script then waits for the server to come up: it sleeps for an initial 5 minutes (vLLM needs time to load the model weights into GPU memory), then polls the /v1 endpoint with curl every 3 minutes, up to 15 times. As soon as the endpoint responds, the loop breaks.                                                                                                                                  
                                                             
  ### 2. Run the agent.
-  Once the server is reachable, the script runs python example_agent.py with --base_url pointing at the local vLLM endpoint and --model pointing at the model
-  path. The agent talks to vLLM over HTTP using the OpenAI-compatible API that vLLM exposes.                                                                     
+  Once the server is reachable, the script runs ```python example_agent.py``` with ```--base_url``` pointing at the local vLLM endpoint and ```--model``` pointing at the model path. The agent talks to vLLM over HTTP using the OpenAI-compatible API that vLLM exposes.                                                                     
   
- ### 3. Shut the vLLM server down.                                                                                                                                  
-  After the agent finishes, the script sends SIGTERM to the entire process group (kill -- -$SERVER_PID) so vLLM and all its workers receive the signal. It then
-  polls for up to 30 seconds for the processes to exit gracefully. If anything is still alive after that, it sends SIGKILL to the group as a fallback. This keeps
-   the GPU reservation from being held by a zombie server after the job is logically done.
+ ### 3. Shut the vLLM server down.
+ After the agent finishes, the script sends SIGTERM to kill vLLM and all its workers. This keeps the GPU reservation from being held by an unused server after the job is logically done.
 
 
