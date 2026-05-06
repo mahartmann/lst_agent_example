@@ -9,7 +9,7 @@ output                  = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(Pro
 error                   = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
 log                     = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 
-request_CPUs            = 1
+request_CPUs            = 4
 request_memory          = 1G
 getenv                  = True
 
