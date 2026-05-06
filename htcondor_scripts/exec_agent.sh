@@ -11,6 +11,7 @@ source $PROJECT_DIR/htcondor_scripts/rename_gpus.sh
 
 # Activate conda environment
 source $CONDA_DIR/etc/profile.d/conda.sh
+conda activate mcp_agent
 export PYTHONPATH=$PYTHONPATH:$PROJECT_DIR
 echo "Activated conda environment: $CONDA_DEFAULT_ENV"
 
@@ -77,7 +78,7 @@ fi
 
 echo "Running experiments..."
 echo $ENDPOINT
-python agent.py --base_url "http://localhost:8080/v1" --model /scratch/common_models/$MODEL_PATH
+python example_agent.py --base_url "http://localhost:8080/v1" --model /scratch/common_models/$MODEL_PATH
 
 
 # Stop the server after experiments complete
