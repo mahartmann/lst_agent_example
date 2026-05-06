@@ -3,7 +3,7 @@
 universe                = vanilla
 initialdir              = /nethome/mareikeh/lst_agent_example
 
-executable              = /nethome/mareikeh/lst_agent_example/htcondor_scripts/run_install.sh
+executable              = /nethome/mareikeh/lst_agent_example/htcondor_scripts/exec_install.sh
 
 output                  = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).out
 error                   = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
