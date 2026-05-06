@@ -1,6 +1,8 @@
 # LST agent example
 This repo contains example code for running an LLM agent on the LST cluster via HTCondor. Information on the LST cluster can be found [here](https://wiki.lst.uni-saarland.de/doku.php?id=start). In case you are already working with HTCondor and use your own submit scripts, please make sure to implement the guidelines and best practices listed in the [wiki](https://drive.google.com/drive/u/0/folders/1t3SYmS7FFZib5yxxri-SSSR9Wvf3pRqQ).
 
+In all scripts in ```/htcondor_scripts```, replace my username ```mareikeh``` with yours and point to the location of your miniconda installation.
+
 ## Download miniconda
 In order to install python packages on the cluster, we need to use the Miniconda package manager. Go to your scratch directory, and install Miniconda following the instructions [here](https://www.anaconda.com/docs/getting-started/miniconda/install/linux-install#curl)
 
