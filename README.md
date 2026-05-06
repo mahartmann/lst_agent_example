@@ -19,5 +19,23 @@ Now we can execute the python code. Again, we need to submit whatever we want to
 This will send the contents of ```htcondor_scripts/exec_agent.sh``` to execution.
 
 These are the major things happening in ```exec_agent.sh```:
-1. 
+
+### 1. Start the vLLM server in the background.               
+  The script launches start_vllm_server.sh (which calls vllm serve <model>) as a background process using setsid, so the server and all the worker processes vLLM
+   spawns end up in their own process group. The group ID is recorded in $SERVER_PID. Putting them in a process group is what lets us cleanly shut everything    
+  down later — killing only the top-level process would leave the workers orphaned.                                                                              
+                                                                                                                                                                 
+  The script then waits for the server to come up: it sleeps for an initial 5 minutes (vLLM needs time to load the model weights into GPU memory), then polls the
+   /v1 endpoint with curl every 3 minutes, up to 15 times. As soon as the endpoint responds, the loop breaks; if it never responds, the script kills the server
+  group and exits with an error.                                                                                                                                 
+                                                            
+ ### 2. Run the agent.
+  Once the server is reachable, the script runs python example_agent.py with --base_url pointing at the local vLLM endpoint and --model pointing at the model
+  path. The agent talks to vLLM over HTTP using the OpenAI-compatible API that vLLM exposes.                                                                     
+  
+ ### 3. Shut the vLLM server down.                                                                                                                                  
+  After the agent finishes, the script sends SIGTERM to the entire process group (kill -- -$SERVER_PID) so vLLM and all its workers receive the signal. It then
+  polls for up to 30 seconds for the processes to exit gracefully. If anything is still alive after that, it sends SIGKILL to the group as a fallback. This keeps
+   the GPU reservation from being held by a zombie server after the job is logically done.
+
 
