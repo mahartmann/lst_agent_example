@@ -37,11 +37,11 @@ echo "Server_host: $SERVER_HOST"
 SERVER_SCRIPT=$PROJECT_DIR/htcondor_scripts/start_vllm_server.sh
 MODEL_PATH="Qwen3-8B"
 
-# Start the server
+# Start the server in a new process group so we can kill all children together
 echo "Starting server..."
-bash $SERVER_SCRIPT $SERVER_HOST $SERVER_PORT $MODEL_PATH &
+setsid bash $SERVER_SCRIPT $SERVER_HOST $SERVER_PORT $MODEL_PATH &
 SERVER_PID=$!
-echo "Server started with PID: $SERVER_PID"
+echo "Server started with PID: $SERVER_PID (process group $SERVER_PID)"
 
 # Wait for the server to initialize
 sleep 300  # 5 minutes = 300 seconds
@@ -70,7 +70,7 @@ done
 # If the server didn't start, exit
 if ! curl -s "$END_POINT" >/dev/null; then
     echo "Server failed to start after $((MAX_RETRIES * RETRY_INTERVAL)) seconds."
-    kill $SERVER_PID
+    kill -- -$SERVER_PID
     exit 1
 fi
 
@@ -81,21 +81,24 @@ python agent.py --base_url "http://localhost:8080/v1" --model /scratch/common_mo
 
 
 # Stop the server after experiments complete
-echo "Stopping server (Server PID: $SERVER_PID)..."
-kill $SERVER_PID  # Send the termination signal
-sleep 300  # Give the server some time to stop
+echo "Stopping server (process group $SERVER_PID)..."
+kill -- -$SERVER_PID  # Send SIGTERM to the entire process group (vllm + workers)
 
+# Wait up to 30 seconds for graceful shutdown
+for i in {1..30}; do
+    if ! ps -p $SERVER_PID > /dev/null; then
+        echo "Server stopped gracefully."
+        break
+    fi
+    sleep 1
+done
 
-# Check if the process is still running
+# If still running, force-kill the whole group
 if ps -p $SERVER_PID > /dev/null; then
-  echo "Server did not stop. Forcing termination..."
-  kill -9 $SERVER_PID  # Forcefully kill the process
-else
-  echo "Server stopped gracefully."
+    echo "Server did not stop. Forcing termination..."
+    kill -9 -- -$SERVER_PID
 fi
 
-# Wait for the process to fully terminate
-wait $SERVER_PID 2>/dev/null
 echo "Server process has been terminated."
 
 echo "Main Experiment Workflow Completed!"
