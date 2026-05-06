@@ -13,4 +13,10 @@ This will execute what we specify in ```htcondor_scripts/exec_install.sh```. In 
 
 ## Run python code
 Now we can execute the python code. Again, we need to submit whatever we want to run as a job to the HTCondor queue using a .sub script.
+
 ```> condor_submit run_agent.sub```
+
+This will send the contents of ```htcondor_scripts/exec_agent.sh``` to execution.
+
+This is what happens in ```exec_agent.sh```:
+
