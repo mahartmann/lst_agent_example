@@ -18,5 +18,6 @@ Now we can execute the python code. Again, we need to submit whatever we want to
 
 This will send the contents of ```htcondor_scripts/exec_agent.sh``` to execution.
 
-This is what happens in ```exec_agent.sh```:
+These are the major things happening in ```exec_agent.sh```:
+1. 
 
