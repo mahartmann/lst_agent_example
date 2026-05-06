@@ -1,5 +1,4 @@
 # HTCondor submit file for running the example LLM agent by serving the LLM via vllm
-# Uses queue syntax to pass multiple argument combinations
 
 universe                = vanilla
 initialdir              = /nethome/mareikeh/lst_agent_example
@@ -11,15 +10,11 @@ error                   = /scratch/mareikeh/logs/logs.$(ClusterId).$(ProcId).$(Y
 log                     = /scratch/mareikeh/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 
 request_GPUs            = 1
-request_CPUs            = 16
-request_memory          = 40G
+request_CPUs            = 4
+request_memory          = 16G
 getenv                  = True
-requirements            = (GPUs_GlobalMemoryMb >= 80000) 
-#&& (TARGET.Machine != "hopper-3.coli.uni-saarland.de")
+requirements            = (GPUs_GlobalMemoryMb >= 80000)
 +WantGPUHomeMounted     = true
-+MaxWallTime            = 604800
-
-#accounting_group = pausable
 
 arguments = 127.0.0.1 8080 Qwen3-8B
 
