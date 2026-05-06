@@ -2,9 +2,9 @@
 # Uses queue syntax to pass multiple argument combinations
 
 universe                = vanilla
-initialdir              = /nethome/mareikeh/lst_example_agent
+initialdir              = /nethome/mareikeh/lst_agent_example
 
-executable              = /nethome/mareikeh/lst_example_agent/htcondor_scripts/exec_agent.sh
+executable              = /nethome/mareikeh/lst_agent_example/htcondor_scripts/exec_agent.sh
 
 output                  = /scratch/hartmann/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).out
 error                   = /scratch/hartmann/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
