@@ -32,11 +32,12 @@ which python
 # Variables
 SERVER_PORT=$1
 SERVER_HOST=$2
+MODEL_PATH=$3
 echo "Server_port: $SERVER_PORT"
 echo "Server_host: $SERVER_HOST"
+echo "Model_path: $MODEL_PATH"
 
 SERVER_SCRIPT=$PROJECT_DIR/htcondor_scripts/start_vllm_server.sh
-MODEL_PATH="Qwen3-8B"
 
 # Start the server in a new process group so we can kill all children together
 echo "Starting server..."
@@ -78,7 +79,7 @@ fi
 
 echo "Running experiments..."
 echo $ENDPOINT
-python example_agent.py --base_url "http://localhost:8080/v1" --model /scratch/common_models/$MODEL_PATH
+python example_agent.py --base_url "http://$SERVER_HOST:$SERVER_PORT/v1" --model /scratch/common_models/$MODEL_PATH
 
 
 # Stop the server after experiments complete

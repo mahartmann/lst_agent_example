@@ -21,4 +21,6 @@ requirements            = (GPUs_GlobalMemoryMb >= 80000)
 
 #accounting_group = pausable
 
+arguments = 127.0.0.1 8080 Qwen3-8B
+
 queue 1  

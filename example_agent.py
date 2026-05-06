@@ -35,6 +35,7 @@ async def main(args):
     tools = await client.get_tools()
 
     llm = ChatOpenAI(
+        api_key="EMPTY",
         model=args.model,
         base_url=args.base_url,
     )
@@ -58,7 +59,7 @@ async def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--base_url", type=str, default="http://localhost:8080/v1")
+    parser.add_argument("--base_url", type=str, default="http://127.0.0.1:8080/v1")
     parser.add_argument("--model", type=str, default="/scratch/common_models/Qwen3-8B")
 
     args = parser.parse_args()
