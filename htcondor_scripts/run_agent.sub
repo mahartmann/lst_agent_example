@@ -6,9 +6,9 @@ initialdir              = /nethome/mareikeh/lst_agent_example
 
 executable              = /nethome/mareikeh/lst_agent_example/htcondor_scripts/exec_agent.sh
 
-output                  = /scratch/hartmann/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).out
-error                   = /scratch/hartmann/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
-log                     = /scratch/hartmann/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+output                  = /scratch/mareikeh/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).out
+error                   = /scratch/mareikeh/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
+log                     = /scratch/mareikeh/logs/logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 
 request_GPUs            = 1
 request_CPUs            = 16
