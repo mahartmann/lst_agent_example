@@ -1,0 +1,16 @@
+# HTCondor submit file for installing requirements for the LLM agent example
+
+universe                = vanilla
+initialdir              = /nethome/mareikeh/lst_agent_example
+
+executable              = /nethome/mareikeh/lst_agent_example/htcondor_scripts/run_install.sh
+
+output                  = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).out
+error                   = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).err
+log                     = /scratch/mareikeh/logs/install_logs.$(ClusterId).$(ProcId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+
+request_CPUs            = 1
+request_memory          = 1G
+getenv                  = True
+
+queue 1  
