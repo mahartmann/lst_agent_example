@@ -7,7 +7,7 @@ export CONDA_DIR=/scratch/hartmann/miniconda3 #location of the miniconda install
 
 
 # Rename GPUs
-source $PROJECT_DIR/htcondor_scipts/rename_gpus.sh
+source $PROJECT_DIR/htcondor_scripts/rename_gpus.sh
 
 # Activate conda environment
 source $CONDA_DIR/etc/profile.d/conda.sh
@@ -27,7 +27,6 @@ echo "HOSTNAME: $HOSTNAME"
 which python
 
 
-xport CUDA_VISIBLE_DEVICES=0,1 
 
 # Variables
 SERVER_PORT=$1
