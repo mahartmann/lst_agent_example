@@ -20,14 +20,10 @@ This will send the contents of ```htcondor_scripts/exec_agent.sh``` to execution
 
 These are the major things happening in ```exec_agent.sh```:
 
-### 1. Start the vLLM server in the background.               
-  The script launches start_vllm_server.sh (which calls vllm serve <model>) as a background process using setsid, so the server and all the worker processes vLLM
-   spawns end up in their own process group. The group ID is recorded in $SERVER_PID. Putting them in a process group is what lets us cleanly shut everything    
-  down later — killing only the top-level process would leave the workers orphaned.                                                                              
-                                                                                                                                                                 
-  The script then waits for the server to come up: it sleeps for an initial 5 minutes (vLLM needs time to load the model weights into GPU memory), then polls the
-   /v1 endpoint with curl every 3 minutes, up to 15 times. As soon as the endpoint responds, the loop breaks; if it never responds, the script kills the server
-  group and exits with an error.                                                                                                                                 
+### 1. Start the vLLM server in the background.            
+[vLLM](https://vllm.ai/) is a high-performance inference engine for large language models. The vllm serve command loads a model from disk into GPU memory and starts an HTTP server that exposes an OpenAI-compatible API — meaning the server speaks the same request/response format as api.openai.com. So instead of calling OpenAI's hosted models over the public internet, ```example_agent.py``` calls a model running locally on the cluster's GPU. There are other ways and libraries for running local models, but this is the only way I could figure out to make the combination of free LLM + langchain + langchain_mcpàdapters work. If you find a different solution, please let me know.
+
+The script launches ```start_vllm_server.sh``` as a background process. The script then waits for the server to come up: it sleeps for an initial 5 minutes (vLLM needs time to load the model weights into GPU memory), then polls the /v1 endpoint with curl every 3 minutes, up to 15 times. As soon as the endpoint responds, the loop breaks.                                                                                                                                  
                                                             
  ### 2. Run the agent.
   Once the server is reachable, the script runs python example_agent.py with --base_url pointing at the local vLLM endpoint and --model pointing at the model
