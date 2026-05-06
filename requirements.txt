@@ -1,0 +1,4 @@
+langchain_openai
+mcp
+langchain_mcp_adapters
+deepagents
