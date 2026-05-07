@@ -30,8 +30,8 @@ which python
 
 
 # Variables
-SERVER_PORT=$1
-SERVER_HOST=$2
+SERVER_HOST=$1
+SERVER_PORT=$2
 MODEL_PATH=$3
 echo "Server_port: $SERVER_PORT"
 echo "Server_host: $SERVER_HOST"
