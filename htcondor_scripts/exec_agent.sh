@@ -11,7 +11,7 @@ source $PROJECT_DIR/htcondor_scripts/rename_gpus.sh
 
 # Activate conda environment
 source $CONDA_DIR/etc/profile.d/conda.sh
-conda activate mcp_agent
+conda activate lst_agent_example
 export PYTHONPATH=$PYTHONPATH:$PROJECT_DIR
 echo "Activated conda environment: $CONDA_DEFAULT_ENV"
 
